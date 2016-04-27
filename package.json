@@ -23,6 +23,7 @@
   "files": [
     "dist/walnut-validator.js",
     "dist/walnut-validator.min.js",
+    "dist/walnut-validator.common.js",
     "src"
   ],
   "scripts": {
