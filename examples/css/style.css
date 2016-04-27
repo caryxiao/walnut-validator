@@ -1,0 +1,12 @@
+.main.container {
+    margin-top: 2em;
+}
+
+.example.container {
+    margin-top: 2em;
+    max-width: 700px !important;
+}
+
+.example > .html.segment {
+    padding: 3.5em 1em 1em;
+}

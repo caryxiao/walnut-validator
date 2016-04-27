@@ -1,0 +1,63 @@
+{
+  "name": "Walnut-Validator",
+  "version": "1.0.0",
+  "description": "a validator plugin",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Cary",
+    "email": "289872225@qq.com",
+    "url": "http://sun190.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaojiangang/walnut-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xiaojiangang/walnut-validator/issues"
+  },
+  "licenses": "MIT",
+  "keywords": [
+    "validator", "jquery-plugin"
+  ],
+  "files": [
+    "dist/walnut-validator.js",
+    "dist/walnut-validator.min.js",
+    "src"
+  ],
+  "scripts": {
+    "build": "node build/build.js",
+    "dev": "webpack --watch --config build/webpack/webpack.dev.config.js & npm run serve-test",
+    "serve-test": "webpack-dev-server --config build/webpack/webpack.test.config.js --host 0.0.0.0"
+  },
+  "homepage": "https://github.com/xiaojiangang/walnut-validator",
+  "devDependencies": {
+    "jquery": "^1.12 || ^2.2",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-json-lint": "^0.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.4.2",
+    "gulp-util": "^3.0.7",
+    "gulp-concat": "^2.6.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-webpack": "^1.5.0",
+    "babel": "^6.3.26",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-2": "^6.5.0",
+    "babel-plugin-transform-runtime": "^6.4.3",
+    "babel-runtime": "^5.8.0",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
+    "wiredep": "^4.0.0",
+    "rollup": "^0.25.8",
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-replace": "^1.1.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "uglify-js": "^2.6.2"
+  }
+}

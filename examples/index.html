@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wanult Validator Examples</title>
+    <link rel="stylesheet" type="text/css" href="css/semantic.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="js/semantic.js"></script>
+    <script type="text/javascript" src="../dist/walnut-validator.js"></script>
+</head>
+<body>
+<div class="ui main text container">
+    <h1 class="ui header">Wanult Validator Example</h1>
+    <p>This example shows how to use validator.</p>
+</div>
+<div class="ui container example">
+    <div class="html ui top attached segment">
+        <form class="ui form">
+            <h4 class="ui dividing header">Account Information</h4>
+            <div class="field">
+                <label>Username</label>
+                <input id="username" type="text" value="" name="example[username]" placeholder="Username" aria-popup-name="username" />
+                <div class="ui red pointing above label" style="display: none;" aria-popup="username"></div>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input id="password" type="password" name="example[password]" value="" aria-popup-name="password" />
+                <div class="ui red pointing above label" style="display: none;" aria-popup="password"></div>
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <input id="confirm-password" type="password" value="" aria-popup-name="confirm-password" />
+                <div class="ui red pointing above label" style="display: none;" aria-popup="confirm-password"></div>
+            </div>
+            <h4 class="ui dividing header">Shipping Information</h4>
+            <div class="field">
+                <label>Name</label>
+                <div class="two fields">
+                    <div class="field">
+                        <input id="firstname" type="text" name="example[first-name]" placeholder="First Name" aria-popup-name="firstname">
+                        <div class="ui red pointing above label" style="display: none;" aria-popup="firstname"></div>
+                    </div>
+                    <div class="field">
+                        <input id="lastname" type="text" name="example[last-name]" placeholder="Last Name" aria-popup-name="lastname">
+                        <div class="ui red pointing above label" style="display: none;" aria-popup="lastname"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Gender</label>
+                <div class="two fields">
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="example[gender]" value="0" aria-popup-name="gender"/>
+                            <label>Male</label>
+                            <div class="ui red pointing above label" style="display: none;" aria-popup="gender"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="example[gender]" value="1"/>
+                            <label>Female</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Billing Address</label>
+                <div class="fields">
+                    <div class="twelve wide field">
+                        <input id="address" type="text" name="example[address]" placeholder="Street Address" aria-popup-name="address">
+                        <div class="ui red pointing above label" style="display: none;" aria-popup="address"></div>
+                    </div>
+                    <div class="four wide field">
+                        <input id="address-2" type="text" name="example[address-2]" placeholder="Apt #" aria-popup-name="address-2">
+                        <div class="ui red pointing above label" style="display: none;" aria-popup="address-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>State</label>
+                    <select id="state" name="example[state]" class="ui dropdown" aria-popup-name="state">
+                        <option></option>
+                        <option value="beijing">Bei Jing</option>
+                        <option value="shanghai">Shang Hai</option>
+                        <option value="wuhan">Wu Han</option>
+                    </select>
+                    <div class="ui red pointing above label" style="display: none;" aria-popup="state"></div>
+                </div>
+                <div class="field">
+                    <label>Country</label>
+                    <select id="country" name="example[country]" class="ui dropdown" aria-popup-name="country">
+                        <option value=""></option>
+                        <option value="china">China</option>
+                        <option value="usa">U.S.A</option>
+                        <option value="germany">Germany</option>
+                    </select>
+                    <div class="ui red pointing above label" style="display: none;" aria-popup="country"></div>
+                </div>
+            </div>
+            <h4 class="ui dividing header">Billing Information</h4>
+            <div class="field">
+                <label>Card Type</label>
+                <select id="card-type" class="ui dropdown" name="card[type]" aria-popup-name="card-type">
+                    <option value=""></option>
+                    <option value="visa">Visa</option>
+                    <option value="discover">Discover</option>
+                    <option value="amex">American Express</option>
+                </select>
+                <div class="ui red pointing above label" style="display: none;" aria-popup="card-type"></div>
+            </div>
+            <div class="fields">
+                <div class="seven wide field">
+                    <label>Card No:</label>
+                    <input id="card-no" type="text" name="card[number]" maxlength="16" placeholder="Card #"aria-popup-name="card-no" >
+                    <div class="ui red pointing above label" style="display: none;" aria-popup="card-no"></div>
+                </div>
+                <div class="three wide field">
+                    <label>CVC</label>
+                    <div class="ui icon input">
+                        <input id="cvs" type="text" name="card[cvc]" maxlength="3" placeholder="CVC" aria-popup-name="cvs">
+                        <i class="icon"></i>
+                    </div>
+                    <div class="ui red pointing above label" style="display: none;" aria-popup="cvs"></div>
+                </div>
+                <div class="six wide field">
+                    <label>Expire</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <select id="expire-month" class="ui dropdown" name="card[expire-month]" aria-popup-name="expire-month">
+                                <option value="">Month</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <div class="ui red pointing above label" style="display: none;" aria-popup="expire-month"></div>
+                        </div>
+                        <div class="field">
+                            <input id="expire-year" type="text" name="card[expire-year]" maxlength="4" placeholder="Year" aria-popup-name="expire-year">
+                            <div class="ui red pointing above label" style="display: none;" aria-popup="expire-year"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui dividing header">Receipt</h4>
+
+            <div class="ui segment">
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input id="gift" type="checkbox" name="gift" aria-popup-name="gift">
+                        <label>Do not include a receipt in the package</label>
+                    </div>
+                </div>
+                <div class="ui red pointing above label" style="display: none;" aria-popup="gift"></div>
+            </div>
+            <div id="submit" class="ui button green">Submit</div>
+        </form>
+        <div class="ui top attached label">Example</div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var validator_config = {
+            regulars: {
+                username: /^[a-zA-Z]\w{3,15}$/ig
+            },
+            fieldHooks: {
+                afterShowPopup: function ($_fieldBase) {
+                    $_fieldBase.$field.parent().addClass('error');
+                },
+                afterHidePopup: function ($_fieldBase) {
+                    $_fieldBase.$field.parent().removeClass('error');
+                }
+            }
+        };
+        var $vd = new WalnutValidator(validator_config);
+        $vd.addField(
+                $('#username'), {
+                    required: true,
+                    regular: 'username'
+                }, {
+                    required: 'Enter a username.',
+                    username: '3-15'
+                }
+        );
+
+        $vd.addField(
+                $('#password'), {
+                    required: true
+                }, {
+                    required: 'Enter a password.'
+                }
+        );
+
+        $vd.addField(
+                $('#confirm-password'), {
+                    sameTo: $('#password')
+                }, {
+                    sameTo: 'Confirm your password.'
+                }
+        );
+
+        $vd.addField(
+                $('#firstname'), {
+                    required: true,
+                    min: 5,
+                    max: 10
+                }, {
+                    required: 'Enter a first name.',
+                    min: 'Minimum 5 characters',
+                    max: 'Maximum 10 characters'
+                }
+        );
+
+        $vd.addField(
+                $('#lastname'), {
+                    required: true
+                }, {
+                    required: 'Enter a last name.'
+                }
+        );
+
+        $vd.addField(
+                $('input[name="example[gender]"]'), {
+                    required: true
+                }, {
+                    required: 'choose your gender.'
+                }
+        ).setHandleShowPopup(function ($_fieldBase, message) {
+            var $field = $_fieldBase.$field;
+            $field.parents('.form > .field').addClass('error');
+            $_fieldBase.$popup.html(message).show();
+        }).setHandleHidePopup(function ($_fieldBase) {
+            var $field = $_fieldBase.$field;
+            $field.parents('.form > .field').removeClass('error');
+            $_fieldBase.$popup.empty().hide();
+        });
+
+        $vd.addField(
+                $('#address'), {
+                    required: true
+                }, {
+                    required: 'Enter a address.'
+                }
+        );
+
+        $vd.addField(
+                $('#address-2'), {
+                    required: true
+                }, {
+                    required: 'Enter a Apt #.'
+                }
+        );
+
+        $vd.addField(
+                $('#state'), {
+                    required: true
+                }, {
+                    required: 'Select a state.'
+                }
+        );
+
+        $vd.addField(
+                $('#country'), {
+                    required: true
+                }, {
+                    required: 'Select a country.'
+                }
+        );
+
+        $vd.addField(
+                $('#card-type'), {
+                    required: true
+                }, {
+                    required: 'Select a card type.'
+                }
+        );
+
+        $vd.addField(
+                $('#card-no'), {
+                    required: true,
+                    remote: 'json/card_no.json'
+                }, {
+                    required: 'Enter a card No.',
+                    remote: 'card is exists.'
+                }
+        );
+
+        $vd.addField(
+                $('#cvs'), {
+                    required: true,
+                    remote: 'json/cvs.json'
+                }, {
+                    required: 'Enter CVS.',
+                    remote: 'CVS is error.'
+                }
+        ).setHandleLoading(function (status, $_fieldBase) {
+            if (status) {
+                $_fieldBase.$field.parent().addClass('loading');
+            } else {
+                $_fieldBase.$field.parent().removeClass('loading');
+            }
+        });
+
+        $vd.addField(
+                $('#expire-month'), {
+                    required: true,
+                    custom_month: function ($_fieldBase) {
+                        return $_fieldBase.val() > 0 && $_fieldBase.val() < 13;
+                    }
+                },{
+                    required: 'Select month.',
+                    custom_month: 'you month is error.'
+                }
+        );
+
+        $vd.addField(
+                $('#expire-year'), {
+                    required: true,
+                    custom_month: function ($_fieldBase) {
+                        return $_fieldBase.val() > 1990 && $_fieldBase.val() < 2016;
+                    }
+                },{
+                    required: 'Enter year.',
+                    custom_month: 'Year must be greater than 1990, less than 2016.'
+                }
+        );
+
+        $vd.addField(
+                $('#gift'), {
+                    required: true
+                },{
+                    required: 'Required.',
+                }
+        ).setHandleShowPopup(function ($_fieldBase, message) {
+            var $field = $_fieldBase.$field;
+            $field.parents('.form > .segment > .field').addClass('error');
+            $_fieldBase.$popup.html(message).show();
+        }).setHandleHidePopup(function ($_fieldBase) {
+            var $field = $_fieldBase.$field;
+            $field.parents('.form > .segment > .field').removeClass('error');
+            $_fieldBase.$popup.empty().hide();
+        });
+
+        $('#submit').on('click', function () {
+            $vd.submit(function () {
+                alert('validate success');
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
