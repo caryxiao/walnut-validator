@@ -267,7 +267,7 @@
         babelHelpers.createClass(regulars, [{
             key: "add",
             value: function add(regulars) {
-                $.extend(this._regulars, regulars || {});
+                $$1.extend(this._regulars, regulars || {});
                 return this;
             }
         }, {
