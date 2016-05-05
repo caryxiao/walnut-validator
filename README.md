@@ -15,18 +15,48 @@ npm install walnut-validator
 ```
 ##头部引入
 
-1. AMD/CMD
+###AMD/CMD
 
 ```html
 <script type="text/javascript" src="walnut-validator.min.js"></script>
 ```
 
-2. CommonJS
+###CommonJS
 
 ```html
 <script type="text/javascript" src="walnut-validator.common.js"></script>
 ``` 
 
+##使用方法
+
+```javascript
+var wdr = new WalnutValidator();
+wdr.addField(
+	$('field1'),{
+		required: true
+	},{
+		required: "Required."
+	}
+);
+
+wdr.addField(
+	$('field2'),{
+		required: true,
+		regular: 'email'
+	},{
+		required: "Required.",
+		email: "Enter a valid Email."
+	}
+);
+
+//提交
+
+$('submitButton').on('click', function(){
+	wdr.submit(function(){
+		//验证成功执行
+	});
+});
+```
 
 
 
