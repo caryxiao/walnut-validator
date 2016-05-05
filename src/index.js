@@ -1,3 +1,4 @@
+import $ from "jquery"
 import Event from "./event"
 import Regulars from "./regulars"
 import FieldBase from "./fieldBase"
@@ -142,6 +143,7 @@ class validator {
             let $field = $fieldBase.$field;
             if ($field.context != $field[0] && $field.selected != "") {
                 $fieldBase.$field = $($field.selector, $field.context);
+                $fieldBase.init();
             }
             this.validateField($fieldBase);
         }

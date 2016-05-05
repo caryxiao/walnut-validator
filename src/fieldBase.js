@@ -26,9 +26,14 @@ class fieldBase {
         this._handleLoading = null;
         this._handleShowPopup = null;
         this._handleHidePopup = null;
-        this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+
+        this.init();
 
         return this;
+    }
+
+    init() {
+        this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
     }
 
     /**

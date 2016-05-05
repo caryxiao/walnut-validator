@@ -310,22 +310,28 @@ var fieldBase = function () {
         this._handleLoading = null;
         this._handleShowPopup = null;
         this._handleHidePopup = null;
-        this.$popup = $$1('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+
+        this.init();
 
         return this;
     }
 
-    /**
-     * Sets the custom regular expression for the field
-     * {
-     *   "qq": /^[1-9][0-9]{4,}$/
-     * }
-     * @param regulars
-     * @returns {fieldBase}
-     */
-
-
     babelHelpers.createClass(fieldBase, [{
+        key: "init",
+        value: function init() {
+            this.$popup = $$1('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+        }
+
+        /**
+         * Sets the custom regular expression for the field
+         * {
+         *   "qq": /^[1-9][0-9]{4,}$/
+         * }
+         * @param regulars
+         * @returns {fieldBase}
+         */
+
+    }, {
         key: "setRegulars",
         value: function setRegulars(regulars) {
             this.regulars = regulars;
@@ -815,7 +821,7 @@ var validator = function () {
 
             this.$fieldsBase.push($fieldBase);
             if ($fieldBase.triggerEvents.length) {
-                $.each($fieldBase.triggerEvents, function (_key, _eventName) {
+                $$1.each($fieldBase.triggerEvents, function (_key, _eventName) {
                     $fieldBase.$field.on(_eventName, function () {
                         self.validateField($fieldBase);
                     });
@@ -935,7 +941,8 @@ var validator = function () {
 
                     var $field = $fieldBase.$field;
                     if ($field.context != $field[0] && $field.selected != "") {
-                        $fieldBase.$field = $($field.selector, $field.context);
+                        $fieldBase.$field = $$1($field.selector, $field.context);
+                        $fieldBase.init();
                     }
                     this.validateField($fieldBase);
                 }
@@ -963,12 +970,12 @@ var validator = function () {
     }, {
         key: "submit",
         value: function submit() {
-            var cbk = arguments.length <= 0 || arguments[0] === undefined ? $.noop : arguments[0];
+            var cbk = arguments.length <= 0 || arguments[0] === undefined ? $$1.noop : arguments[0];
 
             this.validateAll();
             var xhrs = this._getFieldsXHR();
             if (xhrs.length > 0) {
-                $.when.apply({}, xhrs).done(function () {
+                $$1.when.apply({}, xhrs).done(function () {
                     if (!this._hasError()) {
                         cbk();
                         this.trigger('submit');
