@@ -33,7 +33,7 @@ npm install walnut-validator
 var wdr = new WalnutValidator();
 wdr.addField(
 	$('field1'),{
-		required: true
+		required: true // 必填选项
 	},{
 		required: "Required."
 	}
@@ -42,21 +42,48 @@ wdr.addField(
 wdr.addField(
 	$('field2'),{
 		required: true,
-		regular: 'email'
+		regular: 'email' //正则表达式验证
 	},{
 		required: "Required.",
 		email: "Enter a valid Email."
 	}
 );
 
-//提交
+//ajax 验证
+wdr.addField(
+	$('field3'),{
+		remote: '/some_url' //url
+	},{
+		remote: "ajax validator error."
+	}
+);
 
+//自定义方法验证
+wdr.addField(
+	$('field4'),{
+		customValidate: function($_fieldBase) {
+			return $_fieldBase.val() == "";
+		}
+	},{
+		customValidate: "custom function error."
+	}
+)
+
+//提交
 $('submitButton').on('click', function(){
 	wdr.submit(function(){
 		//验证成功执行
 	});
 });
 ```
+
+## 初始化可配置项
+
+名称 | 参数说明 |
+----|---------|
+regulars|{Object}配置全局使用的正则表达式验证|
+fieldHooks|{Object}配置全局的钩子函数, `afterShowPopup`表示弹出提示框后执行, `afterHidePopup`表示隐藏提示框后执行|
+
 
 
 
