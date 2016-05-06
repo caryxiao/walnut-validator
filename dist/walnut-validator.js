@@ -7,9 +7,9 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
     typeof define === 'function' && define.amd ? define(['jquery'], factory) :
     (global.WalnutValidator = factory(global.jQuery));
-}(this, function ($$1) { 'use strict';
+}(this, function ($) { 'use strict';
 
-    $$1 = 'default' in $$1 ? $$1['default'] : $$1;
+    $ = 'default' in $ ? $['default'] : $;
 
     var babelHelpers = {};
     babelHelpers.typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -54,14 +54,14 @@
             protos;
 
         function findHandlers(arr, name, callback, context) {
-            return $$1.grep(arr, function (handler) {
+            return $.grep(arr, function (handler) {
                 return handler && (!name || handler.e === name || handler.e.substr(0, handler.e.indexOf('.')) === name) && (!callback || handler.cb === callback || handler.cb._cb === callback) && (!context || handler.ctx === context);
             });
         }
 
         function eachEvent(events, callback, iterator) {
             // 不支持对象，只支持多个event用空格隔开
-            $$1.each((events || '').split(separator), function (_, key) {
+            $.each((events || '').split(separator), function (_, key) {
                 iterator(key, callback);
             });
         }
@@ -198,7 +198,7 @@
                 }
                 console.log(events);
                 eachEvent(name, cb, function (name, cb) {
-                    $$1.each(findHandlers(events, name, cb, ctx), function () {
+                    $.each(findHandlers(events, name, cb, ctx), function () {
                         delete events[this.id];
                     });
                 });
@@ -229,7 +229,7 @@
             }
         };
 
-        return $$1.extend({
+        return $.extend({
 
             /**
              * 可以通过这个接口，使任何对象具备事件功能。
@@ -238,7 +238,7 @@
              * @return {Object} 返回obj.
              */
             installTo: function installTo(obj) {
-                return $$1.extend(obj, protos);
+                return $.extend(obj, protos);
             }
 
         }, protos);
@@ -267,7 +267,7 @@
         babelHelpers.createClass(regulars, [{
             key: "add",
             value: function add(regulars) {
-                $$1.extend(this._regulars, regulars || {});
+                $.extend(this._regulars, regulars || {});
                 return this;
             }
         }, {
@@ -321,7 +321,7 @@
         babelHelpers.createClass(fieldBase, [{
             key: "init",
             value: function init() {
-                this.$popup = $$1('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+                this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
             }
 
             /**
@@ -451,10 +451,10 @@
              * @private
              */
             value: function _initMessages(messages) {
-                if (messages != null && !$$1.isEmptyObject(messages)) {
-                    $$1.each(messages, function (key, value) {
+                if (messages != null && !$.isEmptyObject(messages)) {
+                    $.each(messages, function (key, value) {
                         var _ks = key.split(',');
-                        $$1.each(_ks, function (k, v) {
+                        $.each(_ks, function (k, v) {
                             this._messages[v] = value;
                         }.bind(this));
                     }.bind(this));
@@ -823,7 +823,7 @@
 
                 this.$fieldsBase.push($fieldBase);
                 if ($fieldBase.triggerEvents.length) {
-                    $$1.each($fieldBase.triggerEvents, function (_key, _eventName) {
+                    $.each($fieldBase.triggerEvents, function (_key, _eventName) {
                         $fieldBase.$field.on(_eventName, function () {
                             self.validateField($fieldBase);
                         });
@@ -943,7 +943,7 @@
 
                         var $field = $fieldBase.$field;
                         if ($field.context != $field[0] && $field.selected != "") {
-                            $fieldBase.$field = $$1($field.selector, $field.context);
+                            $fieldBase.$field = $($field.selector, $field.context);
                             $fieldBase.init();
                         }
                         this.validateField($fieldBase);
@@ -972,12 +972,12 @@
         }, {
             key: "submit",
             value: function submit() {
-                var cbk = arguments.length <= 0 || arguments[0] === undefined ? $$1.noop : arguments[0];
+                var cbk = arguments.length <= 0 || arguments[0] === undefined ? $.noop : arguments[0];
 
                 this.validateAll();
                 var xhrs = this._getFieldsXHR();
                 if (xhrs.length > 0) {
-                    $$1.when.apply({}, xhrs).done(function () {
+                    $.when.apply({}, xhrs).done(function () {
                         if (!this._hasError()) {
                             cbk();
                             this.trigger('submit');
