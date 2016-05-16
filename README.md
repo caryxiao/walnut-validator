@@ -1,19 +1,27 @@
 # Walnut Validator
 [![Join the chat at https://gitter.im/xiaojiangang/walnut-validator](https://badges.gitter.im/xiaojiangang/walnut-validator.svg)](https://gitter.im/xiaojiangang/walnut-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-##介绍
+#说明
+插件正在去除jquery依赖... 
 
+文档待完善...😜
+
+##介绍
 Walnut Validator是一个表单验证插件，支持AMD,CMD,CommonJS方式加载。
 
 有什么疑问可以在[issues](https://github.com/xiaojiangang/walnut-validator/issues)中提出。
 
 ##安装
-##NPM
+##NPM （还未提交到npm）
 
 ```
 npm install walnut-validator
 ```
-##头部引入
+###头部引入
+
+```html
+	<script type="text/javascript" src="walnut-validator.js"></script>
+```
 
 ###AMD/CMD
 
