@@ -1,7 +1,6 @@
-import $ from "jquery"
-
 /**
  * 2015.10.12 添加功能, 支持命名空间时间
+ * 2016.5.16 去除jQuery依赖
  *
  */
 var event = function () {
@@ -10,7 +9,8 @@ var event = function () {
         protos;
 
     function findHandlers(arr, name, callback, context) {
-        return $.grep(arr, function (handler) {
+
+        return arr.filter((handler) => {
             return handler &&
                 (!name || handler.e === name || handler.e.substr(0, handler.e.indexOf('.')) === name) &&
                 (!callback || handler.cb === callback ||
@@ -21,8 +21,8 @@ var event = function () {
 
     function eachEvent(events, callback, iterator) {
         // 不支持对象，只支持多个event用空格隔开
-        $.each((events || '').split(separator), function (_, key) {
-            iterator(key, callback);
+        (events || '').split(separator).forEach((value) => {
+            iterator(value, callback);
         });
     }
 
@@ -156,10 +156,10 @@ var event = function () {
                 this._events = [];
                 return this;
             }
-            console.log(events);
+
             eachEvent(name, cb, function (name, cb) {
-                $.each(findHandlers(events, name, cb, ctx), function () {
-                    delete events[this.id];
+                findHandlers(events, name, cb, ctx).forEach((value) => {
+                    delete events[value.id];
                 });
             });
 
@@ -190,18 +190,10 @@ var event = function () {
         }
     };
 
-    return $.extend({
-
-        /**
-         * 可以通过这个接口，使任何对象具备事件功能。
-         * @method installTo
-         * @param  {Object} obj 需要具备事件行为的对象。
-         * @return {Object} 返回obj.
-         */
-        installTo: function (obj) {
-            return $.extend(obj, protos);
+    return Object.assign({
+        installTo(obj) {
+            return Object.assign(obj, protos);
         }
-
     }, protos);
 };
 
