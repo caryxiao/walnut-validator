@@ -33,6 +33,7 @@ class fieldBase {
     }
 
     init() {
+
         this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
     }
 
@@ -154,13 +155,12 @@ class fieldBase {
      */
     _initMessages(messages) {
         if (messages != null && !$.isEmptyObject(messages)) {
-            $.each(messages, function (key, value) {
-                var _ks = key.split(',');
-                $.each(_ks, function (k, v) {
-                    this._messages[v] = value;
-                }.bind(this));
-            }.bind(this));
-
+            for (let key in messages) {
+                let _ks = key.split(',');
+                for (let k of _ks) {
+                    this._messages[k] = messages[_ks];
+                }
+            }
         }
     }
 
@@ -217,3 +217,4 @@ class fieldBase {
 }
 
 export default fieldBase;
+/* 替换jquery的show hide函数 */

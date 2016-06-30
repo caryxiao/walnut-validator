@@ -44,6 +44,7 @@ babelHelpers;
 
 /**
  * 2015.10.12 添加功能, 支持命名空间时间
+ * 2016.5.16 去除jQuery依赖
  *
  */
 var event = function event() {
@@ -52,15 +53,16 @@ var event = function event() {
         protos;
 
     function findHandlers(arr, name, callback, context) {
-        return $.grep(arr, function (handler) {
+
+        return arr.filter(function (handler) {
             return handler && (!name || handler.e === name || handler.e.substr(0, handler.e.indexOf('.')) === name) && (!callback || handler.cb === callback || handler.cb._cb === callback) && (!context || handler.ctx === context);
         });
     }
 
     function eachEvent(events, callback, iterator) {
         // 不支持对象，只支持多个event用空格隔开
-        $.each((events || '').split(separator), function (_, key) {
-            iterator(key, callback);
+        (events || '').split(separator).forEach(function (value) {
+            iterator(value, callback);
         });
     }
 
@@ -194,10 +196,10 @@ var event = function event() {
                 this._events = [];
                 return this;
             }
-            console.log(events);
+
             eachEvent(name, cb, function (name, cb) {
-                $.each(findHandlers(events, name, cb, ctx), function () {
-                    delete events[this.id];
+                findHandlers(events, name, cb, ctx).forEach(function (value) {
+                    delete events[value.id];
                 });
             });
 
@@ -227,18 +229,10 @@ var event = function event() {
         }
     };
 
-    return $.extend({
-
-        /**
-         * 可以通过这个接口，使任何对象具备事件功能。
-         * @method installTo
-         * @param  {Object} obj 需要具备事件行为的对象。
-         * @return {Object} 返回obj.
-         */
+    return Object.assign({
         installTo: function installTo(obj) {
-            return $.extend(obj, protos);
+            return Object.assign(obj, protos);
         }
-
     }, protos);
 };
 
@@ -319,6 +313,7 @@ var fieldBase = function () {
     babelHelpers.createClass(fieldBase, [{
         key: "init",
         value: function init() {
+
             this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
         }
 
@@ -450,12 +445,33 @@ var fieldBase = function () {
          */
         value: function _initMessages(messages) {
             if (messages != null && !$.isEmptyObject(messages)) {
-                $.each(messages, function (key, value) {
+                for (var key in messages) {
                     var _ks = key.split(',');
-                    $.each(_ks, function (k, v) {
-                        this._messages[v] = value;
-                    }.bind(this));
-                }.bind(this));
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = _ks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var k = _step.value;
+
+                            this._messages[k] = messages[_ks];
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -976,12 +992,14 @@ var validator = function () {
             var xhrs = this._getFieldsXHR();
             if (xhrs.length > 0) {
                 $.when.apply({}, xhrs).done(function () {
+                    this.trigger('afterValidate');
                     if (!this._hasError()) {
                         cbk();
                         this.trigger('submit');
                     }
                 }.bind(this));
             } else {
+                this.trigger('afterValidate');
                 if (!this._hasError()) {
                     cbk();
                     this.trigger('submit');

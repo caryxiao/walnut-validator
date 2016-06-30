@@ -158,12 +158,14 @@ class validator {
         let xhrs = this._getFieldsXHR();
         if (xhrs.length > 0) {
             $.when.apply({}, xhrs).done(function () {
+                this.trigger('afterValidate');
                 if (!this._hasError()) {
                     cbk();
                     this.trigger('submit');
                 }
             }.bind(this));
         } else {
+            this.trigger('afterValidate');
             if (!this._hasError()) {
                 cbk();
                 this.trigger('submit');

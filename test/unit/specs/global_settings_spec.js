@@ -42,6 +42,7 @@ describe("popup", function () {
     });
 
     it("add custom function to global", function () {
+        $('#input').val(11);
         let $fieldBase = $validaotr.addField(
             $('#input'),
             {
@@ -52,7 +53,6 @@ describe("popup", function () {
             }
         );
         $validaotr.validateAll();
-
         expect($fieldBase.error).toBe("custom_test1");
         expect($fieldBase.message).toBe("this value must be less then ten.");
         expect($fieldBase.$popup.html()).toBe("this value must be less then ten.");
