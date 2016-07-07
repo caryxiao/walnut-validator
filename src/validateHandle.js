@@ -9,8 +9,8 @@ class validateHandle {
     required($fieldBase) {
 
         let $field = $fieldBase.$field;
-        if (['checkbox', 'radio'].indexOf($field.attr('type')) > -1) {
-            return $field.is(":checked");
+        if (['checkbox', 'radio'].indexOf($field.getAttribute('type')) > -1) {
+            return $field.matches(":checked");
         } else {
 
             return $fieldBase.val() != "";
@@ -123,8 +123,8 @@ class validateHandle {
      * @param $fieldsBase
      * @returns {boolean}
      */
-    sameTo($fieldBase, rule, $fieldsBase) {
-        let $sameToFieldBase = this._searchFieldBase($fieldsBase, rule);
+    sameTo($fieldBase, rule, $fieldsBases) {
+        let $sameToFieldBase = this._searchFieldBase($fieldsBases, rule);
         if ($sameToFieldBase != undefined) {
             return $fieldBase.val() == $sameToFieldBase.val();
         } else {
@@ -142,7 +142,7 @@ class validateHandle {
     _searchFieldBase($fieldsBase, $field) {
         let $fieldBase;
         for(let _$fieldBase of $fieldsBase) {
-            if (_$fieldBase.$field[0] == $field[0]) {
+            if (_$fieldBase.$field == $field) {
                 $fieldBase = _$fieldBase;
                 break;
             }

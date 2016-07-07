@@ -10,7 +10,7 @@ describe("radio", function () {
 
     it("required", function () {
         let $fieldBase = $validaotr.addField(
-            $('input[name="radio"]'),
+            'input[name="radio"]',
             {
                 required: true
             },
@@ -26,7 +26,7 @@ describe("radio", function () {
     it("checked", function () {
         $('input[name="radio"]').eq(0).prop('checked', true);
         let $fieldBase = $validaotr.addField(
-            $('input[name="radio"]'),
+            'input[name="radio"]',
             {
                 required: true
             },

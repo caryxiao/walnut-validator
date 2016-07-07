@@ -271,6 +271,7 @@ var regulars = function () {
     return regulars;
 }();
 
+var DOM$1 = document;
 /**
  * field object
  */
@@ -279,6 +280,8 @@ var fieldBase = function () {
     function fieldBase() {
         var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
+        var _ref$selector = _ref.selector;
+        var selector = _ref$selector === undefined ? null : _ref$selector;
         var _ref$field = _ref.field;
         var field = _ref$field === undefined ? null : _ref$field;
         var _ref$rules = _ref.rules;
@@ -291,6 +294,7 @@ var fieldBase = function () {
         event$$.installTo(this);
 
         this._status = true;
+        this.selector = selector;
         this.$field = field;
         this.rules = rules;
         this._message = null;
@@ -311,10 +315,9 @@ var fieldBase = function () {
     }
 
     babelHelpers.createClass(fieldBase, [{
-        key: "init",
+        key: 'init',
         value: function init() {
-
-            this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+            this.$popup = DOM$1.querySelector('[aria-popup="' + this.$field.getAttribute('aria-popup-name') + '"]');
         }
 
         /**
@@ -327,7 +330,7 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "setRegulars",
+        key: 'setRegulars',
         value: function setRegulars(regulars) {
             this.regulars = regulars;
             return this;
@@ -341,7 +344,7 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "setEvents",
+        key: 'setEvents',
         value: function setEvents(events) {
             this.triggerEvents = events;
             return this;
@@ -354,7 +357,7 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "setPopup",
+        key: 'setPopup',
         value: function setPopup(selector) {
             this.$popup = selector;
             return this;
@@ -367,19 +370,19 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "setHandleQuery",
+        key: 'setHandleQuery',
         value: function setHandleQuery(handle) {
             this._handleQuery = handle;
             return this;
         }
     }, {
-        key: "setHandleShowPopup",
+        key: 'setHandleShowPopup',
         value: function setHandleShowPopup(handle) {
             this._handleShowPopup = handle;
             return this;
         }
     }, {
-        key: "setHandleHidePopup",
+        key: 'setHandleHidePopup',
         value: function setHandleHidePopup(handle) {
             this._handleHidePopup = handle;
             return this;
@@ -391,7 +394,7 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "getQueryData",
+        key: 'getQueryData',
         value: function getQueryData() {
             var queryData = {};
             if (typeof this._handleQuery == "function") {
@@ -402,7 +405,7 @@ var fieldBase = function () {
             return queryData;
         }
     }, {
-        key: "setHandleLoading",
+        key: 'setHandleLoading',
         value: function setHandleLoading(handle) {
             this._handleLoading = handle;
             return this;
@@ -415,7 +418,7 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "setStatus",
+        key: 'setStatus',
         value: function setStatus(status, error) {
             this._status = status;
             this._error = status ? null : error;
@@ -431,7 +434,7 @@ var fieldBase = function () {
             return this;
         }
     }, {
-        key: "_initMessages",
+        key: '_initMessages',
 
 
         /**
@@ -444,7 +447,7 @@ var fieldBase = function () {
          * @private
          */
         value: function _initMessages(messages) {
-            if (messages != null && !$.isEmptyObject(messages)) {
+            if (messages != null && Object.keys(messages).length > 0) {
                 for (var key in messages) {
                     var _ks = key.split(',');
                     var _iteratorNormalCompletion = true;
@@ -481,9 +484,9 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "val",
+        key: 'val',
         value: function val() {
-            return this.$field.val();
+            return this.$field.value;
         }
 
         /**
@@ -491,13 +494,18 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "showPopup",
+        key: 'showPopup',
         value: function showPopup() {
-            if (typeof this._handleShowPopup == "function") {
-                this._handleShowPopup(this, this.message);
-            } else {
-                this.$popup.html(this.message).show();
+
+            if (this.$popup != null) {
+                if (typeof this._handleShowPopup == "function") {
+                    this._handleShowPopup(this, this.message);
+                } else {
+                    this.$popup.innerHTML = this.message;
+                    this.$popup.style.display = "block";
+                }
             }
+
             this.trigger('afterShowPopup', this);
         }
 
@@ -506,13 +514,17 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "hidePopup",
+        key: 'hidePopup',
         value: function hidePopup() {
-            if (typeof this._handleHidePopup == "function") {
-                this._handleHidePopup(this);
-            } else {
-                this.$popup.empty().hide();
+            if (this.$popup != null) {
+                if (typeof this._handleHidePopup == "function") {
+                    this._handleHidePopup(this);
+                } else {
+                    this.$popup.innerHTML = "";
+                    this.$popup.style.display = "none";
+                }
             }
+
             this.trigger('afterHidePopup', this);
         }
 
@@ -522,8 +534,9 @@ var fieldBase = function () {
          */
 
     }, {
-        key: "validating",
+        key: 'validating',
         value: function validating(status) {
+
             if (this._handleLoading != null) {
                 if (typeof this._handleLoading == "function") {
                     this.hidePopup();
@@ -531,24 +544,27 @@ var fieldBase = function () {
                 }
             } else {
                 if (status) {
-                    this.$popup.html('loading...').show();
+                    if (this.$popup != null) {
+                        this.$popup.innerHTML = 'loading...';
+                        this.$popup.style.display = "block";
+                    }
                 } else {
                     this.hidePopup();
                 }
             }
         }
     }, {
-        key: "status",
+        key: 'status',
         get: function get() {
             return this._status;
         }
     }, {
-        key: "error",
+        key: 'error',
         get: function get() {
             return this._error;
         }
     }, {
-        key: "message",
+        key: 'message',
         get: function get() {
             return this._message;
         }
@@ -573,8 +589,8 @@ var validateHandle = function () {
         value: function required($fieldBase) {
 
             var $field = $fieldBase.$field;
-            if (['checkbox', 'radio'].indexOf($field.attr('type')) > -1) {
-                return $field.is(":checked");
+            if (['checkbox', 'radio'].indexOf($field.getAttribute('type')) > -1) {
+                return $field.matches(":checked");
             } else {
 
                 return $fieldBase.val() != "";
@@ -700,8 +716,8 @@ var validateHandle = function () {
 
     }, {
         key: 'sameTo',
-        value: function sameTo($fieldBase, rule, $fieldsBase) {
-            var $sameToFieldBase = this._searchFieldBase($fieldsBase, rule);
+        value: function sameTo($fieldBase, rule, $fieldsBases) {
+            var $sameToFieldBase = this._searchFieldBase($fieldsBases, rule);
             if ($sameToFieldBase != undefined) {
                 return $fieldBase.val() == $sameToFieldBase.val();
             } else {
@@ -729,7 +745,7 @@ var validateHandle = function () {
                 for (var _iterator = $fieldsBase[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var _$fieldBase = _step.value;
 
-                    if (_$fieldBase.$field[0] == $field[0]) {
+                    if (_$fieldBase.$field == $field) {
                         $fieldBase = _$fieldBase;
                         break;
                     }
@@ -755,11 +771,15 @@ var validateHandle = function () {
     return validateHandle;
 }();
 
+var DOM = document;
+
 var validator = function () {
     function validator() {
         var _ref = arguments.length <= 0 || arguments[0] === undefined ? //afterShowPopup, afterHidePopup
         {} : arguments[0];
 
+        var _ref$form = _ref.form;
+        var form = _ref$form === undefined ? null : _ref$form;
         var _ref$regulars = _ref.regulars;
         var regulars$$ = _ref$regulars === undefined ? {} : _ref$regulars;
         var _ref$customFuncs = _ref.customFuncs;
@@ -773,6 +793,7 @@ var validator = function () {
         var fieldHooks = _ref$fieldHooks === undefined ? {} : _ref$fieldHooks;
         babelHelpers.classCallCheck(this, validator);
 
+        this.$form = DOM.querySelectorAll(form);
         this.$fieldsBase = [];
         var event$$ = new event();
         event$$.installTo(this);
@@ -798,10 +819,10 @@ var validator = function () {
 
     babelHelpers.createClass(validator, [{
         key: "addField",
-        value: function addField(field, rules, messages) {
+        value: function addField(selector, rules, messages) {
             var self = this;
             var $fieldBase = new fieldBase({
-                field: field,
+                field: this._getField(selector),
                 rules: rules,
                 messages: messages
             }).setHandleShowPopup(this.handleShowPopup).setHandleHidePopup(this.handleHidePopup);
@@ -845,6 +866,17 @@ var validator = function () {
             }
             return $fieldBase;
         }
+    }, {
+        key: "_getField",
+        value: function _getField(selector) {
+            var $field = void 0;
+            if (this.$form == null) {
+                $field = this.$form.querySelector(selector);
+            } else {
+                $field = DOM.querySelector(selector);
+            }
+            return $field;
+        }
 
         /**
          * validate field
@@ -854,7 +886,7 @@ var validator = function () {
     }, {
         key: "validateField",
         value: function validateField($fieldBase) {
-            if (!$fieldBase.$field.length) return;
+            if ($fieldBase.$field == null) return;
             var status = true;
             var error = void 0;
             var $rules = $fieldBase.rules;
@@ -916,7 +948,7 @@ var validator = function () {
                         break;
                     }
                 } else if (type == "sameTo") {
-                    status = this.$validateHandle.sameTo($fieldBase, rule, this.$fieldsBase);
+                    status = this.$validateHandle.sameTo($fieldBase, this._getField(rule), this.$fieldsBase);
                     if (!status) {
                         error = type;
                         break;
@@ -955,11 +987,8 @@ var validator = function () {
                 for (var _iterator3 = this.$fieldsBase[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                     var $fieldBase = _step3.value;
 
-                    var $field = $fieldBase.$field;
-                    if ($field.context != $field[0] && $field.selected != "") {
-                        $fieldBase.$field = $($field.selector, $field.context);
-                        $fieldBase.init();
-                    }
+                    // let $field = $fieldBase.$field;
+                    $fieldBase.init();
                     this.validateField($fieldBase);
                 }
             } catch (err) {

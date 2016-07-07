@@ -10,7 +10,7 @@ describe("select", function () {
 
     it("required", function () {
         let $fieldBase = $validaotr.addField(
-            $('#select'),
+            '#select',
             {
                 required: true
             },
@@ -26,7 +26,7 @@ describe("select", function () {
     it("checked", function () {
         $('#select').val("2");
         let $fieldBase = $validaotr.addField(
-            $('#select'),
+            '#select',
             {
                 required: true
             },

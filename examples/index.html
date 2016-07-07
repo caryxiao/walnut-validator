@@ -178,16 +178,16 @@
             },
             fieldHooks: {
                 afterShowPopup: function ($_fieldBase) {
-                    $_fieldBase.$field.parent().addClass('error');
+                    $($_fieldBase.$field).parent().addClass('error');
                 },
                 afterHidePopup: function ($_fieldBase) {
-                    $_fieldBase.$field.parent().removeClass('error');
+                    $($_fieldBase.$field).parent().removeClass('error');
                 }
             }
         };
         var $vd = new WalnutValidator(validator_config);
         $vd.addField(
-                $('#username'), {
+                '#username', {
                     required: true,
                     regular: 'username'
                 }, {
@@ -197,7 +197,7 @@
         );
 
         $vd.addField(
-                $('#password'), {
+                '#password', {
                     required: true
                 }, {
                     required: 'Enter a password.'
@@ -205,15 +205,15 @@
         );
 
         $vd.addField(
-                $('#confirm-password'), {
-                    sameTo: $('#password')
+                '#confirm-password', {
+                    sameTo: '#password'
                 }, {
                     sameTo: 'Confirm your password.'
                 }
         );
 
         $vd.addField(
-                $('#firstname'), {
+                '#firstname', {
                     required: true,
                     min: 5,
                     max: 10
@@ -225,7 +225,7 @@
         );
 
         $vd.addField(
-                $('#lastname'), {
+                '#lastname', {
                     required: true
                 }, {
                     required: 'Enter a last name.'
@@ -233,23 +233,23 @@
         );
 
         $vd.addField(
-                $('input[name="example[gender]"]'), {
+                'input[name="example[gender]"]', {
                     required: true
                 }, {
                     required: 'choose your gender.'
                 }
         ).setHandleShowPopup(function ($_fieldBase, message) {
-            var $field = $_fieldBase.$field;
+            var $field = $($_fieldBase.$field);
             $field.parents('.form > .field').addClass('error');
-            $_fieldBase.$popup.html(message).show();
+            $($_fieldBase.$popup).html(message).show();
         }).setHandleHidePopup(function ($_fieldBase) {
-            var $field = $_fieldBase.$field;
+            var $field = $($_fieldBase.$field);
             $field.parents('.form > .field').removeClass('error');
-            $_fieldBase.$popup.empty().hide();
+            $($_fieldBase.$popup).empty().hide();
         });
 
         $vd.addField(
-                $('#address'), {
+                '#address', {
                     required: true
                 }, {
                     required: 'Enter a address.'
@@ -257,7 +257,7 @@
         );
 
         $vd.addField(
-                $('#address-2'), {
+                '#address-2', {
                     required: true
                 }, {
                     required: 'Enter a Apt #.'
@@ -265,7 +265,7 @@
         );
 
         $vd.addField(
-                $('#state'), {
+                '#state', {
                     required: true
                 }, {
                     required: 'Select a state.'
@@ -273,7 +273,7 @@
         );
 
         $vd.addField(
-                $('#country'), {
+                '#country', {
                     required: true
                 }, {
                     required: 'Select a country.'
@@ -281,7 +281,7 @@
         );
 
         $vd.addField(
-                $('#card-type'), {
+                '#card-type', {
                     required: true
                 }, {
                     required: 'Select a card type.'
@@ -289,7 +289,7 @@
         );
 
         $vd.addField(
-                $('#card-no'), {
+                '#card-no', {
                     required: true,
                     remote: 'json/card_no.json'
                 }, {
@@ -299,7 +299,7 @@
         );
 
         $vd.addField(
-                $('#cvs'), {
+                '#cvs', {
                     required: true,
                     remote: 'json/cvs.json'
                 }, {
@@ -308,14 +308,14 @@
                 }
         ).setHandleLoading(function (status, $_fieldBase) {
             if (status) {
-                $_fieldBase.$field.parent().addClass('loading');
+                $($_fieldBase.$field).parent().addClass('loading');
             } else {
-                $_fieldBase.$field.parent().removeClass('loading');
+                $($_fieldBase.$field).parent().removeClass('loading');
             }
         });
 
         $vd.addField(
-                $('#expire-month'), {
+                '#expire-month', {
                     required: true,
                     custom_month: function ($_fieldBase) {
                         return $_fieldBase.val() > 0 && $_fieldBase.val() < 13;
@@ -327,7 +327,7 @@
         );
 
         $vd.addField(
-                $('#expire-year'), {
+                '#expire-year', {
                     required: true,
                     custom_month: function ($_fieldBase) {
                         return $_fieldBase.val() > 1990 && $_fieldBase.val() < 2016;
@@ -339,19 +339,19 @@
         );
 
         $vd.addField(
-                $('#gift'), {
+                '#gift', {
                     required: true
                 },{
                     required: 'Required.',
                 }
         ).setHandleShowPopup(function ($_fieldBase, message) {
-            var $field = $_fieldBase.$field;
+            var $field = $($_fieldBase.$field);
             $field.parents('.form > .segment > .field').addClass('error');
-            $_fieldBase.$popup.html(message).show();
+            $($_fieldBase.$popup).html(message).show();
         }).setHandleHidePopup(function ($_fieldBase) {
-            var $field = $_fieldBase.$field;
+            var $field = $($_fieldBase.$field);
             $field.parents('.form > .segment > .field').removeClass('error');
-            $_fieldBase.$popup.empty().hide();
+            $($_fieldBase.$popup).empty().hide();
         });
 
         $('#submit').on('click', function () {

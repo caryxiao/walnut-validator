@@ -26,7 +26,7 @@ describe("popup", function () {
     it("add new regular to global", function () {
         $('#input').val("abc");
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 regular: 'test1'
             },
@@ -38,13 +38,13 @@ describe("popup", function () {
 
         expect($fieldBase.error).toBe("test1");
         expect($fieldBase.message).toBe("test1.");
-        expect($fieldBase.$popup.html()).toBe("test1.");
+        expect($fieldBase.$popup.innerHTML).toBe("test1.");
     });
 
     it("add custom function to global", function () {
         $('#input').val(11);
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 custom_test1: 'custom_max10'
             },
@@ -55,6 +55,6 @@ describe("popup", function () {
         $validaotr.validateAll();
         expect($fieldBase.error).toBe("custom_test1");
         expect($fieldBase.message).toBe("this value must be less then ten.");
-        expect($fieldBase.$popup.html()).toBe("this value must be less then ten.");
+        expect($fieldBase.$popup.innerHTML).toBe("this value must be less then ten.");
     });
 });

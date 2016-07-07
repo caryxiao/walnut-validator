@@ -10,7 +10,7 @@ describe("popup", function () {
 
     it("show", function () {
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 required: true
             },
@@ -22,13 +22,13 @@ describe("popup", function () {
 
         expect($fieldBase.error).toBe("required");
         expect($fieldBase.message).toBe("required.");
-        expect($fieldBase.$popup.html()).toBe("required.");
+        expect($fieldBase.$popup.innerHTML).toBe("required.");
     });
 
     it("hide", function () {
         $('#input').val('123');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 required: true
             },
@@ -40,6 +40,6 @@ describe("popup", function () {
 
         expect($fieldBase.error).toBe(null);
         expect($fieldBase.message).toBe(null);
-        expect($fieldBase.$popup.html()).toBe("");
+        expect($fieldBase.$popup.innerHTML).toBe("");
     });
 });

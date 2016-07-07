@@ -4,3 +4,7 @@ export function query(el) {
     }
     return el;
 }
+
+export function attr(el, name) {
+    return el.getAttribute(name);
+}

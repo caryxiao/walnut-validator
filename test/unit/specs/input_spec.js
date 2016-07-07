@@ -10,7 +10,7 @@ describe("input", function () {
 
     it("required", function () {
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 required: true
             },
@@ -27,7 +27,7 @@ describe("input", function () {
     it("regular invalid", function () {
         $('#input').val('1');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 regular: 'email'
             },
@@ -43,7 +43,7 @@ describe("input", function () {
     it("regular valid", function () {
         $('#input').val('289872225@qq.com');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 regular: 'email'
             },
@@ -59,7 +59,7 @@ describe("input", function () {
     it("min", function () {
         $('#input').val('123');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 min: 2
             },
@@ -76,7 +76,7 @@ describe("input", function () {
     it("max", function () {
         $('#input').val('12');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 max: 2
             },
@@ -92,7 +92,7 @@ describe("input", function () {
     it("custom function", function () {
         $('#input').val('12');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 custom_fun: function ($_fieldBase) {
                     return $_fieldBase.val() == 12;
@@ -115,7 +115,7 @@ describe("input", function () {
         it("invalid", function () {
             $('#password').val('123');
             let $fieldBase1 = $validaotr.addField(
-                $('#password'),
+                '#password',
                 {
                     max: 10
                 },
@@ -125,10 +125,10 @@ describe("input", function () {
             );
 
             let $fieldBase2 = $validaotr.addField(
-                $('#confirm-password'),
+                '#confirm-password',
                 {
                     max: 10,
-                    sameTo: $('#password')
+                    sameTo: '#password'
                 },
                 {
                     max: "max.",
@@ -144,7 +144,7 @@ describe("input", function () {
         it("valid", function () {
             $('#password').val('123');
             $validaotr.addField(
-                $('#password'),
+                '#password',
                 {
                     max: 10
                 },
@@ -154,10 +154,10 @@ describe("input", function () {
             );
             $('#confirm-password').val('123');
             let $fieldBase2 = $validaotr.addField(
-                $('#confirm-password'),
+                '#confirm-password',
                 {
                     max: 10,
-                    sameTo: $('#password')
+                    sameTo: '#password'
                 },
                 {
                     max: "max.",

@@ -1,10 +1,12 @@
 import Event from "./event"
-import $ from "jquery"
+const DOM = document;
 /**
  * field object
  */
 class fieldBase {
+
     constructor({
+        selector = null,
         field = null,
         rules = null,
         messages = null
@@ -13,6 +15,7 @@ class fieldBase {
         event.installTo(this);
 
         this._status = true;
+        this.selector = selector;
         this.$field = field;
         this.rules = rules;
         this._message = null;
@@ -33,8 +36,7 @@ class fieldBase {
     }
 
     init() {
-
-        this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
+        this.$popup = DOM.querySelector('[aria-popup="' + this.$field.getAttribute('aria-popup-name') + '"]');
     }
 
     /**
@@ -154,7 +156,7 @@ class fieldBase {
      * @private
      */
     _initMessages(messages) {
-        if (messages != null && !$.isEmptyObject(messages)) {
+        if (messages != null && Object.keys(messages).length > 0) {
             for (let key in messages) {
                 let _ks = key.split(',');
                 for (let k of _ks) {
@@ -169,18 +171,23 @@ class fieldBase {
      * @returns {*}
      */
     val() {
-        return this.$field.val();
+        return this.$field.value;
     }
 
     /**
      * show error
      */
     showPopup() {
-        if (typeof this._handleShowPopup == "function") {
-            this._handleShowPopup(this, this.message);
-        } else {
-            this.$popup.html(this.message).show();
+
+        if (this.$popup != null) {
+            if (typeof this._handleShowPopup == "function") {
+                this._handleShowPopup(this, this.message);
+            } else {
+                this.$popup.innerHTML = this.message;
+                this.$popup.style.display = "block";
+            }
         }
+
         this.trigger('afterShowPopup', this);
     }
 
@@ -188,11 +195,15 @@ class fieldBase {
      * hide error
      */
     hidePopup() {
-        if (typeof this._handleHidePopup == "function") {
-            this._handleHidePopup(this);
-        } else {
-            this.$popup.empty().hide();
+        if (this.$popup != null) {
+            if (typeof this._handleHidePopup == "function") {
+                this._handleHidePopup(this);
+            } else {
+                this.$popup.innerHTML = "";
+                this.$popup.style.display = "none";
+            }
         }
+
         this.trigger('afterHidePopup', this);
     }
 
@@ -201,6 +212,7 @@ class fieldBase {
      * @param status
      */
     validating(status) {
+
         if (this._handleLoading != null) {
             if (typeof this._handleLoading == "function") {
                 this.hidePopup();
@@ -208,7 +220,10 @@ class fieldBase {
             }
         } else {
             if (status) {
-                this.$popup.html('loading...').show();
+                if (this.$popup != null) {
+                    this.$popup.innerHTML = 'loading...';
+                    this.$popup.style.display = "block";
+                }
             } else {
                 this.hidePopup();
             }
@@ -217,4 +232,4 @@ class fieldBase {
 }
 
 export default fieldBase;
-/* 替换jquery的show hide函数 */
+//TODO checkbox radio 验证 还有BUG

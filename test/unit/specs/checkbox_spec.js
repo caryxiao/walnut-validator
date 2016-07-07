@@ -10,7 +10,7 @@ describe("checkbox", function () {
 
     it("required", function () {
         let $fieldBase = $validaotr.addField(
-            $('input[name="checkbox"]'),
+            'input[name="checkbox"]',
             {
                 required: true
             },
@@ -27,7 +27,7 @@ describe("checkbox", function () {
     it("checked", function () {
         $('input[name="checkbox"]').eq(0).prop('checked', true);
         let $fieldBase = $validaotr.addField(
-            $('input[name="checkbox"]'),
+            'input[name="checkbox"]',
             {
                 required: true
             },

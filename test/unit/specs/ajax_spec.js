@@ -16,7 +16,7 @@ describe("ajax", function () {
     it("invalid", function (done) {
         $('#input').val('12');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 remote: '/json/invalid.json'
             },
@@ -42,7 +42,7 @@ describe("ajax", function () {
     it("valid", function (done) {
         $('#input').val('12');
         let $fieldBase = $validaotr.addField(
-            $('#input'),
+            '#input',
             {
                 remote: '/json/valid.json'
             },

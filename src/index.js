@@ -4,15 +4,19 @@ import Regulars from "./regulars"
 import FieldBase from "./fieldBase"
 import ValidateHandle from "./validateHandle";
 
+const DOM = document;
+
 class validator {
 
     constructor({
+        form = null,
         regulars = {}, // config common regulars
         customFuncs = {},
         handleShowPopup = null,
         handleHidePopup = null,
         fieldHooks = {} //afterShowPopup, afterHidePopup
     } = {}) {
+        this.$form = DOM.querySelectorAll(form);
         this.$fieldsBase = [];
         var event = new Event();
         event.installTo(this);
@@ -34,17 +38,15 @@ class validator {
      * @param messages
      * @returns {fieldBase}
      */
-    addField(field, rules, messages) {
+    addField(selector, rules, messages) {
         let self = this;
         let $fieldBase = new FieldBase({
-            field: field,
+            field: this._getField(selector),
             rules: rules,
             messages: messages
         })
             .setHandleShowPopup(this.handleShowPopup)
             .setHandleHidePopup(this.handleHidePopup);
-
-
 
         if (typeof this.afterShowPopup == "function") {
             $fieldBase.on('afterShowPopup')
@@ -65,12 +67,22 @@ class validator {
         return $fieldBase;
     }
 
+    _getField(selector) {
+        let $field;
+        if (this.$form == null) {
+            $field = this.$form.querySelector(selector);
+        } else {
+            $field = DOM.querySelector(selector);
+        }
+        return $field;
+    }
+
     /**
      * validate field
      * @param $fieldBase
      */
     validateField($fieldBase) {
-        if (!$fieldBase.$field.length) return;
+        if ($fieldBase.$field == null) return;
         let status = true;
         let error;
         let $rules = $fieldBase.rules;
@@ -111,7 +123,7 @@ class validator {
                     break;
                 }
             } else if (type == "sameTo") {
-                status = this.$validateHandle.sameTo($fieldBase, rule, this.$fieldsBase);
+                status = this.$validateHandle.sameTo($fieldBase, this._getField(rule), this.$fieldsBase);
                 if (!status) {
                     error = type;
                     break;
@@ -140,11 +152,8 @@ class validator {
      */
     validateAll() {
         for (let $fieldBase of this.$fieldsBase) {
-            let $field = $fieldBase.$field;
-            if ($field.context != $field[0] && $field.selected != "") {
-                $fieldBase.$field = $($field.selector, $field.context);
-                $fieldBase.init();
-            }
+            // let $field = $fieldBase.$field;
+            $fieldBase.init();
             this.validateField($fieldBase);
         }
     }
