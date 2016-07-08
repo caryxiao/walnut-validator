@@ -6,17 +6,14 @@ const DOM = document;
 class fieldBase {
 
     constructor({
-        selector = null,
-        field = null,
+        el = null,
         rules = null,
         messages = null
     } = {}){
         let event = new Event();
         event.installTo(this);
-
         this._status = true;
-        this.selector = selector;
-        this.$field = field;
+        this.el = el;
         this.rules = rules;
         this._message = null;
         this._messages = {};
@@ -36,7 +33,11 @@ class fieldBase {
     }
 
     init() {
-        this.$popup = DOM.querySelector('[aria-popup="' + this.$field.getAttribute('aria-popup-name') + '"]');
+        this.$popup = DOM.querySelector('[aria-popup="' + this.Field.getAttribute('aria-popup-name') + '"]');
+    }
+
+    get Field() {
+        return this.el[0];
     }
 
     /**
@@ -167,11 +168,13 @@ class fieldBase {
     }
 
     /**
-     * get $field value
+     * get field value
      * @returns {*}
      */
     val() {
-        return this.$field.value;
+        if (['checkbox', 'radio'].indexOf(this.Field.getAttribute('type')) == -1) {
+            return this.Field.value;
+        }
     }
 
     /**
@@ -232,4 +235,3 @@ class fieldBase {
 }
 
 export default fieldBase;
-//TODO checkbox radio 验证 还有BUG

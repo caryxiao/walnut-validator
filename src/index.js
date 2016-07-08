@@ -41,7 +41,7 @@ class validator {
     addField(selector, rules, messages) {
         let self = this;
         let $fieldBase = new FieldBase({
-            field: this._getField(selector),
+            el: this._getElement(selector),
             rules: rules,
             messages: messages
         })
@@ -59,7 +59,7 @@ class validator {
         this.$fieldsBase.push($fieldBase);
         if ($fieldBase.triggerEvents.length) {
             $.each($fieldBase.triggerEvents, function (_key, _eventName) {
-                $fieldBase.$field.on(_eventName, function () {
+                $fieldBase.Field.on(_eventName, function () {
                     self.validateField($fieldBase);
                 });
             })
@@ -67,14 +67,14 @@ class validator {
         return $fieldBase;
     }
 
-    _getField(selector) {
-        let $field;
+    _getElement(selector) {
+        let el;
         if (this.$form == null) {
-            $field = this.$form.querySelector(selector);
+            el = this.$form.querySelectorAll(selector);
         } else {
-            $field = DOM.querySelector(selector);
+            el = DOM.querySelectorAll(selector);
         }
-        return $field;
+        return el;
     }
 
     /**
@@ -82,7 +82,7 @@ class validator {
      * @param $fieldBase
      */
     validateField($fieldBase) {
-        if ($fieldBase.$field == null) return;
+        if ($fieldBase.Field == null) return;
         let status = true;
         let error;
         let $rules = $fieldBase.rules;
@@ -123,7 +123,7 @@ class validator {
                     break;
                 }
             } else if (type == "sameTo") {
-                status = this.$validateHandle.sameTo($fieldBase, this._getField(rule), this.$fieldsBase);
+                status = this.$validateHandle.sameTo($fieldBase, this._getElement(rule), this.$fieldsBase);
                 if (!status) {
                     error = type;
                     break;
@@ -162,7 +162,7 @@ class validator {
      * start validate
      * @param cbk
      */
-    submit(cbk = $.noop) {
+    submit(cbk = () => {}) {
         this.validateAll();
         let xhrs = this._getFieldsXHR();
         if (xhrs.length > 0) {
@@ -216,3 +216,4 @@ class validator {
 }
 
 export default validator;
+//TODO ajax更换成fetch

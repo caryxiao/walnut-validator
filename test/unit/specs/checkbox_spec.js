@@ -25,7 +25,7 @@ describe("checkbox", function () {
     });
 
     it("checked", function () {
-        $('input[name="checkbox"]').eq(0).prop('checked', true);
+        $('input[name="checkbox"]').eq(1).prop('checked', true);
         let $fieldBase = $validaotr.addField(
             'input[name="checkbox"]',
             {

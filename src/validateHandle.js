@@ -8,11 +8,20 @@ class validateHandle {
      */
     required($fieldBase) {
 
-        let $field = $fieldBase.$field;
-        if (['checkbox', 'radio'].indexOf($field.getAttribute('type')) > -1) {
-            return $field.matches(":checked");
-        } else {
+        let el = $fieldBase.el;
 
+        if (['checkbox', 'radio'].indexOf($fieldBase.Field.getAttribute('type')) > -1) {
+            return (() => {
+                let checked = false;
+                for(let field of el) {
+                    if (field.matches(":checked")) {
+                        checked = true;
+                        break;
+                    }
+                }
+                return checked;
+            })();
+        } else {
             return $fieldBase.val() != "";
         }
 
@@ -85,8 +94,8 @@ class validateHandle {
         let data = {
             fieldValue: fieldValue
         };
-
-        data = $.extend(true, {}, data, $fieldBase.getQueryData() || {});
+        
+        data = Object.assign({}, data, $fieldBase.getQueryData() || {});
 
         $fieldBase.$xhr = $.ajax({
             url: url,
@@ -123,8 +132,8 @@ class validateHandle {
      * @param $fieldsBase
      * @returns {boolean}
      */
-    sameTo($fieldBase, rule, $fieldsBases) {
-        let $sameToFieldBase = this._searchFieldBase($fieldsBases, rule);
+    sameTo($fieldBase, rule, $fieldsBase) {
+        let $sameToFieldBase = this._searchFieldBase($fieldsBase, rule);
         if ($sameToFieldBase != undefined) {
             return $fieldBase.val() == $sameToFieldBase.val();
         } else {
@@ -135,14 +144,14 @@ class validateHandle {
     /**
      * search $fieldBase in $fieldsBase
      * @param $fieldsBase
-     * @param $field
+     * @param el
      * @returns {*}
      * @private
      */
-    _searchFieldBase($fieldsBase, $field) {
+    _searchFieldBase($fieldsBase, el) {
         let $fieldBase;
         for(let _$fieldBase of $fieldsBase) {
-            if (_$fieldBase.$field == $field) {
+            if (_$fieldBase.Field == el[0]) {
                 $fieldBase = _$fieldBase;
                 break;
             }

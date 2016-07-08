@@ -280,10 +280,8 @@ var fieldBase = function () {
     function fieldBase() {
         var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-        var _ref$selector = _ref.selector;
-        var selector = _ref$selector === undefined ? null : _ref$selector;
-        var _ref$field = _ref.field;
-        var field = _ref$field === undefined ? null : _ref$field;
+        var _ref$el = _ref.el;
+        var el = _ref$el === undefined ? null : _ref$el;
         var _ref$rules = _ref.rules;
         var rules = _ref$rules === undefined ? null : _ref$rules;
         var _ref$messages = _ref.messages;
@@ -292,10 +290,8 @@ var fieldBase = function () {
 
         var event$$ = new event();
         event$$.installTo(this);
-
         this._status = true;
-        this.selector = selector;
-        this.$field = field;
+        this.el = el;
         this.rules = rules;
         this._message = null;
         this._messages = {};
@@ -317,8 +313,11 @@ var fieldBase = function () {
     babelHelpers.createClass(fieldBase, [{
         key: 'init',
         value: function init() {
-            this.$popup = DOM$1.querySelector('[aria-popup="' + this.$field.getAttribute('aria-popup-name') + '"]');
+            this.$popup = DOM$1.querySelector('[aria-popup="' + this.Field.getAttribute('aria-popup-name') + '"]');
         }
+    }, {
+        key: 'setRegulars',
+
 
         /**
          * Sets the custom regular expression for the field
@@ -328,9 +327,6 @@ var fieldBase = function () {
          * @param regulars
          * @returns {fieldBase}
          */
-
-    }, {
-        key: 'setRegulars',
         value: function setRegulars(regulars) {
             this.regulars = regulars;
             return this;
@@ -479,14 +475,16 @@ var fieldBase = function () {
         }
 
         /**
-         * get $field value
+         * get field value
          * @returns {*}
          */
 
     }, {
         key: 'val',
         value: function val() {
-            return this.$field.value;
+            if (['checkbox', 'radio'].indexOf(this.Field.getAttribute('type')) == -1) {
+                return this.Field.value;
+            }
         }
 
         /**
@@ -554,6 +552,11 @@ var fieldBase = function () {
             }
         }
     }, {
+        key: 'Field',
+        get: function get() {
+            return this.el[0];
+        }
+    }, {
         key: 'status',
         get: function get() {
             return this._status;
@@ -588,11 +591,42 @@ var validateHandle = function () {
          */
         value: function required($fieldBase) {
 
-            var $field = $fieldBase.$field;
-            if (['checkbox', 'radio'].indexOf($field.getAttribute('type')) > -1) {
-                return $field.matches(":checked");
-            } else {
+            var el = $fieldBase.el;
 
+            if (['checkbox', 'radio'].indexOf($fieldBase.Field.getAttribute('type')) > -1) {
+                return function () {
+                    var checked = false;
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = el[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var field = _step.value;
+
+                            if (field.matches(":checked")) {
+                                checked = true;
+                                break;
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+
+                    return checked;
+                }();
+            } else {
                 return $fieldBase.val() != "";
             }
         }
@@ -673,7 +707,7 @@ var validateHandle = function () {
                 fieldValue: fieldValue
             };
 
-            data = $.extend(true, {}, data, $fieldBase.getQueryData() || {});
+            data = Object.assign({}, data, $fieldBase.getQueryData() || {});
 
             $fieldBase.$xhr = $.ajax({
                 url: url,
@@ -716,8 +750,8 @@ var validateHandle = function () {
 
     }, {
         key: 'sameTo',
-        value: function sameTo($fieldBase, rule, $fieldsBases) {
-            var $sameToFieldBase = this._searchFieldBase($fieldsBases, rule);
+        value: function sameTo($fieldBase, rule, $fieldsBase) {
+            var $sameToFieldBase = this._searchFieldBase($fieldsBase, rule);
             if ($sameToFieldBase != undefined) {
                 return $fieldBase.val() == $sameToFieldBase.val();
             } else {
@@ -728,39 +762,39 @@ var validateHandle = function () {
         /**
          * search $fieldBase in $fieldsBase
          * @param $fieldsBase
-         * @param $field
+         * @param el
          * @returns {*}
          * @private
          */
 
     }, {
         key: '_searchFieldBase',
-        value: function _searchFieldBase($fieldsBase, $field) {
+        value: function _searchFieldBase($fieldsBase, el) {
             var $fieldBase = void 0;
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
             try {
-                for (var _iterator = $fieldsBase[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var _$fieldBase = _step.value;
+                for (var _iterator2 = $fieldsBase[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var _$fieldBase = _step2.value;
 
-                    if (_$fieldBase.$field == $field) {
+                    if (_$fieldBase.Field == el[0]) {
                         $fieldBase = _$fieldBase;
                         break;
                     }
                 }
             } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
                     }
                 } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
                     }
                 }
             }
@@ -822,7 +856,7 @@ var validator = function () {
         value: function addField(selector, rules, messages) {
             var self = this;
             var $fieldBase = new fieldBase({
-                field: this._getField(selector),
+                el: this._getElement(selector),
                 rules: rules,
                 messages: messages
             }).setHandleShowPopup(this.handleShowPopup).setHandleHidePopup(this.handleHidePopup);
@@ -859,7 +893,7 @@ var validator = function () {
             this.$fieldsBase.push($fieldBase);
             if ($fieldBase.triggerEvents.length) {
                 $.each($fieldBase.triggerEvents, function (_key, _eventName) {
-                    $fieldBase.$field.on(_eventName, function () {
+                    $fieldBase.Field.on(_eventName, function () {
                         self.validateField($fieldBase);
                     });
                 });
@@ -867,15 +901,15 @@ var validator = function () {
             return $fieldBase;
         }
     }, {
-        key: "_getField",
-        value: function _getField(selector) {
-            var $field = void 0;
+        key: "_getElement",
+        value: function _getElement(selector) {
+            var el = void 0;
             if (this.$form == null) {
-                $field = this.$form.querySelector(selector);
+                el = this.$form.querySelectorAll(selector);
             } else {
-                $field = DOM.querySelector(selector);
+                el = DOM.querySelectorAll(selector);
             }
-            return $field;
+            return el;
         }
 
         /**
@@ -886,7 +920,7 @@ var validator = function () {
     }, {
         key: "validateField",
         value: function validateField($fieldBase) {
-            if ($fieldBase.$field == null) return;
+            if ($fieldBase.Field == null) return;
             var status = true;
             var error = void 0;
             var $rules = $fieldBase.rules;
@@ -948,7 +982,7 @@ var validator = function () {
                         break;
                     }
                 } else if (type == "sameTo") {
-                    status = this.$validateHandle.sameTo($fieldBase, this._getField(rule), this.$fieldsBase);
+                    status = this.$validateHandle.sameTo($fieldBase, this._getElement(rule), this.$fieldsBase);
                     if (!status) {
                         error = type;
                         break;
@@ -1015,7 +1049,7 @@ var validator = function () {
     }, {
         key: "submit",
         value: function submit() {
-            var cbk = arguments.length <= 0 || arguments[0] === undefined ? $.noop : arguments[0];
+            var cbk = arguments.length <= 0 || arguments[0] === undefined ? function () {} : arguments[0];
 
             this.validateAll();
             var xhrs = this._getFieldsXHR();
