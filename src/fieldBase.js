@@ -1,5 +1,6 @@
 import Event from "./event"
-const DOM = document;
+import $ from "jquery"
+// const dom = document;
 /**
  * field object
  */
@@ -33,7 +34,7 @@ class fieldBase {
     }
 
     init() {
-        this.$popup = DOM.querySelector('[aria-popup="' + this.Field.getAttribute('aria-popup-name') + '"]');
+        this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
     }
 
     get Field() {

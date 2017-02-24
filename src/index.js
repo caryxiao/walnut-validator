@@ -4,7 +4,7 @@ import Regulars from "./regulars"
 import FieldBase from "./fieldBase"
 import ValidateHandle from "./validateHandle";
 
-const DOM = document;
+// const dom = document;
 
 class validator {
 
@@ -16,7 +16,7 @@ class validator {
         handleHidePopup = null,
         fieldHooks = {} //afterShowPopup, afterHidePopup
     } = {}) {
-        this.$form = DOM.querySelectorAll(form);
+        this.$form = $(form);
         this.$fieldsBase = [];
         var event = new Event();
         event.installTo(this);
@@ -67,12 +67,23 @@ class validator {
         return $fieldBase;
     }
 
+    removeField(selector) {
+        let el = this._getElement(selector);
+        let $filesBase = [];
+        $.each(this.$fieldsBase, function (_key, _fileBase) {
+            if (_fileBase.el[0] != el[0]) {
+                $filesBase.push(_fileBase);
+            }
+        });
+        this.$fieldsBase = $filesBase;
+    }
+
     _getElement(selector) {
         let el;
         if (this.$form == null) {
-            el = this.$form.querySelectorAll(selector);
+            el = this.$form.find(selector);
         } else {
-            el = DOM.querySelectorAll(selector);
+            el = $(selector);
         }
         return el;
     }

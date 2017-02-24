@@ -355,6 +355,7 @@
         });
 
         $('#submit').on('click', function () {
+            $vd.removeField('#gift');
             $vd.submit(function () {
                 alert('validate success');
             });

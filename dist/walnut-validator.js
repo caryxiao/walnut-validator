@@ -1,6 +1,6 @@
 /*!
  * walnut-validator.js v1.0.0
- * (c) 2016 Cary Xiao
+ * (c) 2017 Cary Xiao
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -273,7 +273,7 @@
         return regulars;
     }();
 
-    var DOM$1 = document;
+    // const dom = document;
     /**
      * field object
      */
@@ -313,12 +313,12 @@
         }
 
         babelHelpers.createClass(fieldBase, [{
-            key: 'init',
+            key: "init",
             value: function init() {
-                this.$popup = DOM$1.querySelector('[aria-popup="' + this.Field.getAttribute('aria-popup-name') + '"]');
+                this.$popup = $('[aria-popup="' + this.$field.attr('aria-popup-name') + '"]');
             }
         }, {
-            key: 'setRegulars',
+            key: "setRegulars",
 
 
             /**
@@ -342,7 +342,7 @@
              */
 
         }, {
-            key: 'setEvents',
+            key: "setEvents",
             value: function setEvents(events) {
                 this.triggerEvents = events;
                 return this;
@@ -355,7 +355,7 @@
              */
 
         }, {
-            key: 'setPopup',
+            key: "setPopup",
             value: function setPopup(selector) {
                 this.$popup = selector;
                 return this;
@@ -368,19 +368,19 @@
              */
 
         }, {
-            key: 'setHandleQuery',
+            key: "setHandleQuery",
             value: function setHandleQuery(handle) {
                 this._handleQuery = handle;
                 return this;
             }
         }, {
-            key: 'setHandleShowPopup',
+            key: "setHandleShowPopup",
             value: function setHandleShowPopup(handle) {
                 this._handleShowPopup = handle;
                 return this;
             }
         }, {
-            key: 'setHandleHidePopup',
+            key: "setHandleHidePopup",
             value: function setHandleHidePopup(handle) {
                 this._handleHidePopup = handle;
                 return this;
@@ -392,7 +392,7 @@
              */
 
         }, {
-            key: 'getQueryData',
+            key: "getQueryData",
             value: function getQueryData() {
                 var queryData = {};
                 if (typeof this._handleQuery == "function") {
@@ -403,7 +403,7 @@
                 return queryData;
             }
         }, {
-            key: 'setHandleLoading',
+            key: "setHandleLoading",
             value: function setHandleLoading(handle) {
                 this._handleLoading = handle;
                 return this;
@@ -416,7 +416,7 @@
              */
 
         }, {
-            key: 'setStatus',
+            key: "setStatus",
             value: function setStatus(status, error) {
                 this._status = status;
                 this._error = status ? null : error;
@@ -432,7 +432,7 @@
                 return this;
             }
         }, {
-            key: '_initMessages',
+            key: "_initMessages",
 
 
             /**
@@ -482,7 +482,7 @@
              */
 
         }, {
-            key: 'val',
+            key: "val",
             value: function val() {
                 if (['checkbox', 'radio'].indexOf(this.Field.getAttribute('type')) == -1) {
                     return this.Field.value;
@@ -494,7 +494,7 @@
              */
 
         }, {
-            key: 'showPopup',
+            key: "showPopup",
             value: function showPopup() {
 
                 if (this.$popup != null) {
@@ -514,7 +514,7 @@
              */
 
         }, {
-            key: 'hidePopup',
+            key: "hidePopup",
             value: function hidePopup() {
                 if (this.$popup != null) {
                     if (typeof this._handleHidePopup == "function") {
@@ -534,7 +534,7 @@
              */
 
         }, {
-            key: 'validating',
+            key: "validating",
             value: function validating(status) {
 
                 if (this._handleLoading != null) {
@@ -554,22 +554,22 @@
                 }
             }
         }, {
-            key: 'Field',
+            key: "Field",
             get: function get() {
                 return this.el[0];
             }
         }, {
-            key: 'status',
+            key: "status",
             get: function get() {
                 return this._status;
             }
         }, {
-            key: 'error',
+            key: "error",
             get: function get() {
                 return this._error;
             }
         }, {
-            key: 'message',
+            key: "message",
             get: function get() {
                 return this._message;
             }
@@ -807,7 +807,7 @@
         return validateHandle;
     }();
 
-    var DOM = document;
+    // const dom = document;
 
     var validator = function () {
         function validator() {
@@ -829,7 +829,7 @@
             var fieldHooks = _ref$fieldHooks === undefined ? {} : _ref$fieldHooks;
             babelHelpers.classCallCheck(this, validator);
 
-            this.$form = DOM.querySelectorAll(form);
+            this.$form = $(form);
             this.$fieldsBase = [];
             var event$$ = new event();
             event$$.installTo(this);
@@ -903,13 +903,25 @@
                 return $fieldBase;
             }
         }, {
+            key: "removeField",
+            value: function removeField(selector) {
+                var el = this._getElement(selector);
+                var $filesBase = [];
+                $.each(this.$fieldsBase, function (_key, _fileBase) {
+                    if (_fileBase.el[0] != el[0]) {
+                        $filesBase.push(_fileBase);
+                    }
+                });
+                this.$fieldsBase = $filesBase;
+            }
+        }, {
             key: "_getElement",
             value: function _getElement(selector) {
                 var el = void 0;
                 if (this.$form == null) {
-                    el = this.$form.querySelectorAll(selector);
+                    el = this.$form.find(selector);
                 } else {
-                    el = DOM.querySelectorAll(selector);
+                    el = $(selector);
                 }
                 return el;
             }
